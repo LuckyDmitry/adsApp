@@ -58,20 +58,21 @@ public class MyService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d("MyService", "onStartCommand");
         if (intent != null) {
-            if (intent.getStringExtra(MainActivity.SERVICE_MODE).equals("startForeground")) {
-                if (!isForegroundServiceRunning) {
-                    Log.d("MyService", "running");
-                    isForegroundServiceRunning = true;
-                    executor.execute(() -> startForeground(1, builder.build()));
+            if (intent.getStringExtra(MainActivity.SERVICE_MODE) != null) {
+                if (intent.getStringExtra(MainActivity.SERVICE_MODE).equals("startForeground")) {
+                    if (!isForegroundServiceRunning) {
+                        isForegroundServiceRunning = true;
+                        executor.execute(() -> startForeground(1, builder.build()));
+                    }
                 }
-            }
 
-            if (intent.getStringExtra(MainActivity.SERVICE_MODE).equals("stopForeground")) {
-                if (isForegroundServiceRunning) {
-                    Log.d("MyService", "stopForeground");
-                    stopForeground(true);
-                    isForegroundServiceRunning = false;
-                    stopSelf();
+                if (intent.getStringExtra(MainActivity.SERVICE_MODE).equals("stopForeground")) {
+                    if (isForegroundServiceRunning) {
+                        Log.d("MyService", "stopForeground");
+                        stopForeground(true);
+                        isForegroundServiceRunning = false;
+                        stopSelf();
+                    }
                 }
             }
         }
